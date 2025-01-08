@@ -4,14 +4,17 @@ import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
 
 public class BaseUrl {
-    protected final String BASEURL = "https://stellarburgers.nomoreparties.site/api";
-    protected final String ORDERS = "/orders";
-    protected final String AUTHUSER = "/auth/user";
-    protected final String AUTHREGISTER = "/auth/register";
-    protected final String AUTHLOGIN = "/auth/login";
+    protected static final String BASEURL = "https://stellarburgers.nomoreparties.site/api";
+    protected static final String ORDERS = "/orders";
+    protected static final String AUTHUSER = "/auth/user";
+    protected static final String AUTHREGISTER = "/auth/register";
+    protected static final String AUTHLOGIN = "/auth/login";
+    protected static final String INGREDIENTS = "/ingredients";
 
 
     @Step("Удаление пользователя")
@@ -21,7 +24,7 @@ public class BaseUrl {
                 .all()
                 .contentType(ContentType.JSON)
                 .baseUri(BASEURL)
-                .body(token)
+                .header("Authorization", token)
                 .when()
                 .delete(AUTHUSER)
                 .then();
@@ -97,5 +100,15 @@ public class BaseUrl {
                 .then()
                 .log()
                 .all();
+    }
+    @Step("Получение данных об ингредиентах")
+    public List<String> getIngredients() {
+        return given().log().all()
+                .contentType(ContentType.JSON)
+                .baseUri(BASEURL)
+                .when()
+                .get(INGREDIENTS)
+                .then().log().all()
+                .extract().jsonPath().getList("data._id");
     }
 }

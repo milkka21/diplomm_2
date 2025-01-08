@@ -13,20 +13,17 @@ import praktikum.UserCreate;
 import praktikum.UserRandom;
 
 public class UserCreateTest {
-    private BaseUrl baseUrl;
+    private final BaseUrl baseUrl = new BaseUrl();;
     private UserCreate randomUniqueUser;
-    private UserAssertion userAssertion;
-    private String accessToken;
+    private final UserAssertion userAssertion = new UserAssertion();;
+    private String accessToken = null;
 
     protected final UserRandom random = new UserRandom();
 
     @Before
     @Step("Предусловия для создания Пользователя")
     public void setUp() {
-        baseUrl = new BaseUrl();
         randomUniqueUser = random.random();
-        userAssertion = new UserAssertion();
-        accessToken = null;
     }
 
     @Test
@@ -69,7 +66,7 @@ public class UserCreateTest {
     @Description("Пользователя нельзя создать")
     public void userCantCreated() {
         ValidatableResponse create = baseUrl.register(randomUniqueUser);
-        userAssertion.assertCreationSusses(create);
+        accessToken = userAssertion.assertCreationSusses(create);
 
         ValidatableResponse create2 = baseUrl.register(randomUniqueUser);
         userAssertion.assertCreationUserFailed(create2);

@@ -32,7 +32,7 @@ public class OrderTest {
     @DisplayName("Проверка создания заказа зарегестрированным пользователем")
     @Description("Можно войти с существующими данными")
     public void checkCreateOrderInLoginUser() {
-        List<String> ingredients = List.of("61c0c5a71d1f82001bdaaa6d", "61c0c5a71d1f82001bdaaa6f");
+        List<String> ingredients = baseUrl.getIngredients();
         OrderCreate orderCreate = new OrderCreate(ingredients);
         ValidatableResponse response = baseUrl.createOrders(accessToken, orderCreate);
         orderAssertion.assertCreationOrder(response);
@@ -42,11 +42,7 @@ public class OrderTest {
     @DisplayName("Проверка создания заказа незарегестрированным пользователем")
     @Description("Нельзя войти с существующими данными")
     public void checkCreateOrderNoLoginUser() {
-        List<String> ingredients = List.of(
-                "60d3463f7034a000269f45e7",
-                "60d3463f7034a000269f45e9",
-                "60d3463f7034a000269f45e8",
-                "60d3463f7034a000269f45ea");
+        List<String> ingredients = List.of();
         OrderCreate orderCreate = new OrderCreate(ingredients);
         ValidatableResponse response = baseUrl.createOrders("123", orderCreate);
         orderAssertion.assertCreationOrderNoAuth(response);
@@ -79,7 +75,7 @@ public class OrderTest {
     @DisplayName("Проверка создания заказа c ингредиентами")
     @Description("Успешное создание заказа")
     public void checkCreateOrderWithIngredients() {
-        List<String> ingredients = List.of("61c0c5a71d1f82001bdaaa6d", "61c0c5a71d1f82001bdaaa6f");
+        List<String> ingredients = baseUrl.getIngredients();
         OrderCreate orderCreate = new OrderCreate(ingredients);
         ValidatableResponse response = baseUrl.createOrders(accessToken, orderCreate);
         orderAssertion.assertCreationOrderWithIngredients(response);

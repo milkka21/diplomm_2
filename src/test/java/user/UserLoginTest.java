@@ -30,7 +30,7 @@ public class UserLoginTest {
     @Test
     @DisplayName("Логин Пользователя существующими данными")
     @Description("Можно войти с существующими данными")
-    public void UserCanSuccessfullyLogin() {
+    public void userCanSuccessfullyLogin() {
         UserLogin userLogin = UserLogin.from(randomUniqueUser);
         ValidatableResponse login = baseUrl.login(userLogin);
         userAssertion.assertLoginSuccess(login);
@@ -41,8 +41,7 @@ public class UserLoginTest {
     @Description("Попытка входа с неправильным паролем. Проверка сообщения об ошибке")
     public void userLoginUnsuccessfullyWithoutPassword() {
         UserLogin userLogin = UserLogin.from(randomUniqueUser);
-        UserCanSuccessfullyLogin();
-        userLogin.setPassword(userLogin.getPassword()+ "uy");
+        userLogin.setPassword(userLogin.getPassword()+ "help");
         ValidatableResponse login = baseUrl.login(userLogin);
         userAssertion.assertLoginFailed(login);
     }
@@ -52,8 +51,7 @@ public class UserLoginTest {
     @Description("Попытка входа с неправильным полем Логин. Проверка сообщения об ошибке")
     public void userLoginUnsuccessfullyWithoutEmail() {
         UserLogin userLogin = UserLogin.from(randomUniqueUser);
-        UserCanSuccessfullyLogin();
-        userLogin.setEmail(userLogin.getEmail()+ "uywe");
+        userLogin.setEmail(userLogin.getEmail()+ "please");
         ValidatableResponse login = baseUrl.login(userLogin);
         userAssertion.assertLoginFailed(login);
     }
